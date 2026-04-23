@@ -8,34 +8,34 @@ The system supports four types of users: Administrator, Technician, Secretary, a
 
 User Roles and Features
   Administrator
-    Manage employees (add and remove workers)
-    Configure shifts (1–3 per day)
-    Define working hours (by day or specific date)
-    Manage worker breaks
-    Review and approve vacation and sick leave requests
+    - Manage employees (add and remove workers)
+    - Configure shifts (1–3 per day)
+    - Define working hours (by day or specific date)
+    - Manage worker breaks
+    - Review and approve vacation and sick leave requests
     
   All Workers
-    Submit requests for vacation or sick leave
+    - Submit requests for vacation or sick leave
     
   Technician
-    View daily appointments
-    Start and manage inspections
-    Mark inspections as passed or failed
-    Cancel appointments
+    - View daily appointments
+    - Start and manage inspections
+    - Mark inspections as passed or failed
+    - Cancel appointments
     
   Secretary
-    Create appointments (e.g. phone requests)
-    View appointment history
-    Handle rescheduling when technicians become unavailable
+    - Create appointments (e.g. phone requests)
+    - View appointment history
+    - Handle rescheduling when technicians become unavailable
     
   Client
-    View available time slots based on date and vehicle type
-    Schedule and cancel appointments
-    View upcoming and past appointments
+    - View available time slots based on date and vehicle type
+    - Schedule and cancel appointments
+    - View upcoming and past appointments
     
 Technologies
-  Java (Swing)
-  MySQL
+    Java (Swing)
+    MySQL
   
 Key Features
   Layered MVC architecture
