@@ -25,7 +25,8 @@ User Roles and Features
     
   Secretary
     - Create appointments (e.g. phone requests)
-    - View appointment history
+    - Input vehicle data for a vehicle of a given appointment
+    - Handle payment and mark inspections as finished
     - Handle rescheduling when technicians become unavailable
     
   Client
