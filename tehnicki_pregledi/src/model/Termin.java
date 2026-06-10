@@ -47,6 +47,8 @@ public class Termin {
      */
     private LocalDate datum_Termina;
     
+    private String neispravnosti;
+    
     
 
 	public Termin(TerminState stanje, Tehnicar tehnicar, Vozilo vozilo, LocalTime vreme_pocetka,

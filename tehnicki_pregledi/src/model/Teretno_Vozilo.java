@@ -39,8 +39,39 @@ public class Teretno_Vozilo extends Motorno_Vozilo {
     	return trajanje;
     }
     
-    public int cena_registracije() {
-    	return 0;
+    public double cena_registracije() throws VoziloTipException {
+    	double cena = 10000;
+        
+        cena += this.getZapremina_motora() * 3;
+        
+        cena += this.getSnagaKW() * 20;
+       
+        cena += this.getNajveca_dozvoljena_masa() * 4;
+
+        
+        switch(this.getTip()) {
+
+            case LTV:
+                cena += 5000;
+                break;
+
+            case TV_SA_HIDRAUL_KS:
+                cena += 8000;
+                break;
+
+            case TV_SA_PNEUM_KS:
+                cena += 10000;
+                break;
+                
+            default: 
+            	throw new VoziloTipException();
+            	
+            
+        }
+
+        cena *= getVlasnikFaktor();
+
+        return cena;
     }
     
     

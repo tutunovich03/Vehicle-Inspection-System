@@ -35,8 +35,36 @@ public class Prikljucno_Vozilo extends Vozilo {
 		return trajanje;
 	}
 	
-	public int cena_registracije() {
-		return 0;
+	public double cena_registracije() throws VoziloTipException {
+		double cena = 4000;
+
+	    cena += this.getNosivost() * 5;
+
+	    switch(this.getTip()) {
+
+	        case PV_ZA_TRAKTOR:
+	            cena += 1000;
+	            break;
+
+	        case PV_BKS:
+	            cena += 2000;
+	            break;
+
+	        case PV_KSIK:
+	            cena += 2500;
+	            break;
+
+	        case OSTALA_PV:
+	            cena += 3000;
+	            break;
+	            
+	        default:
+	        	throw new VoziloTipException();
+	    }
+
+	    cena *= getVlasnikFaktor();
+
+	    return cena;
 	}
 	
 	

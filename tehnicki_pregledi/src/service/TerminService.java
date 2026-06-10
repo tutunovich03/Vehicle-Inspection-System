@@ -23,6 +23,7 @@ import exceptions.RegDateException;
 import exceptions.TerminZauzetException;
 import exceptions.UserCreateException;
 import exceptions.VoziloTipException;
+import exceptions.invalidAppointmentExcepiton;
 
 
 /**
@@ -75,10 +76,16 @@ public class TerminService {
         	if(t.getStanje() != TerminState.REZERVISAN) throw new InvalidTermStateException();
         }
         if(state == TerminState.U_TOKU) {
-        	if(t.getStanje() != TerminState.REZERVISAN) throw new InvalidTermStateException();
+        	if(t.getStanje() != TerminState.REZERVISAN && t.getStanje() != TerminState.PREKINUT) throw new InvalidTermStateException();
         }
         if(state == TerminState.PREKINUT || state == TerminState.NEISPRAVAN || state == TerminState.ISPRAVAN) {
         	if(t.getStanje() != TerminState.U_TOKU) throw new InvalidTermStateException();
+        }
+        if(state == TerminState.NEISPRAVAN_POPUNJEN) {
+        	if(t.getStanje() != TerminState.NEISPRAVAN) throw new InvalidTermStateException();
+        }
+        if(state == TerminState.ZAVRSEN) {
+        	if(t.getStanje() != TerminState.ISPRAVAN) throw new InvalidTermStateException();
         }
     }
 
@@ -106,23 +113,10 @@ public class TerminService {
     }
     
     
-    public void setRezultat(Termin t, boolean rez) {
-        
-    }
-
-    /**
-     * @param v 
-     * @param d 
-     * @param v
-     */
-    public void checkAddTermin(LocalTime vreme, LocalDate d, Vozilo voz) {
-        // TODO implement here
-    }
     
     
-    
-    public void getTerminiVlasnika(Vlasnik vl, TerminState state) {
-        
+    public void removeTermin(Termin t) throws ClassNotFoundException, SQLException {
+    	terminDAO.removeTermin(t);
     }
 
     /**
@@ -132,13 +126,16 @@ public class TerminService {
      * @throws TerminZauzetException 
      * @throws VoziloTipException 
      * @throws RegDateException 
+     * @throws invalidAppointmentExcepiton 
      * @throws SQLException 
      * @throws ClassNotFoundException 
      */
     
-    public void verifyTermin(Vozilo v, LocalDate date)  throws VoziloTipException, RegDateException {
+    public void verifyTermin(Vozilo v, LocalDate date)  throws VoziloTipException, RegDateException, invalidAppointmentExcepiton {
     	if(v.getDatum_isteka_registracije().isAfter(date.plusDays(30)))
     		throw new RegDateException();
+    	if(/*date.isBefore(LocalDate.now().plusDays(3)) ||*/ date.isAfter(LocalDate.now().plusDays(15)))
+    			throw new invalidAppointmentExcepiton();
     }
     
     
@@ -186,7 +183,7 @@ public class TerminService {
     	return izabrani;
     }
     
-    public void addTermin(LocalTime vreme, LocalDate date, Vozilo vozilo, Vlasnik vl) throws TerminZauzetException, VoziloTipException, RegDateException, ClassNotFoundException, SQLException, UserCreateException {  //---------
+    public void addTermin(LocalTime vreme, LocalDate date, Vozilo vozilo, Vlasnik vl) throws TerminZauzetException, VoziloTipException, RegDateException, ClassNotFoundException, SQLException, UserCreateException, invalidAppointmentExcepiton {  //---------
     	
     	verifyTermin(vozilo, date);
     	int trajanje_pauze = new SystemDAO().readTrajanjePauze();
@@ -245,6 +242,8 @@ public class TerminService {
     	
     	Tehnicar izabrani_tehnicar = dodeliTehnicara(vreme, termini_slobodnih, radno_vreme_slobodnih);
     	
+    	System.out.println(izabrani_tehnicar.getId());
+    	
     	Termin newTermin = new Termin(TerminState.REZERVISAN, izabrani_tehnicar, vozilo, vreme, date);
     	
     	System.out.print("rezervisani termin: ");
@@ -255,8 +254,9 @@ public class TerminService {
     }
     
  
-    public ArrayList<LocalTime> getSlobodniTermini(LocalDate date, Vozilo vozilo) throws VoziloTipException, ClassNotFoundException, SQLException, UserCreateException { // ------------
+    public ArrayList<LocalTime> getSlobodniTermini(LocalDate date, Vozilo vozilo) throws VoziloTipException, ClassNotFoundException, SQLException, UserCreateException, RegDateException, invalidAppointmentExcepiton { // ------------
     	
+    	verifyTermin(vozilo, date);
     	int trajanje_pauze = new SystemDAO().readTrajanjePauze();
     	ArrayList<Termin> zakazani_termini = terminDAO.readTermini(date);
     	ArrayList<Zaposleni> tehnicari =  zDAO.readZapsoleniList(RadnoMestoZaposlenog.TEHNICAR);
@@ -451,6 +451,10 @@ public class TerminService {
 		LocalTime vp = ref_time.plusMinutes(x*trajanje_pauze);
 		
 		teh.setVreme_pauze(vp);
+    }
+    
+    public ArrayList<Termin> getPregledanaVozilaTerm() throws ClassNotFoundException, SQLException {
+    	return terminDAO.readPregledanaVozTerm();
     }
        
 

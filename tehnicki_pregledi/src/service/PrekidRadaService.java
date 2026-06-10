@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -56,14 +57,16 @@ public class PrekidRadaService {
      * @param pf
      * @throws IOException 
      * @throws InvalidFileException 
+     * @throws SQLException 
+     * @throws ClassNotFoundException 
      */
-    public void addBolovanjeRequest(Zaposleni z, String pf) throws IOException, InvalidFileException {
+    public void addBolovanjeRequest(Zaposleni z, String pf, LocalDate datum_od, LocalDate datum_do) throws IOException, InvalidFileException, ClassNotFoundException, SQLException {
     	StringBuilder file_path_server = new StringBuilder ();
     	
         validateDocument(pf);
         postRequestDoc(pf, z, file_path_server);
         
-        Bolovanje b = new Bolovanje(z, null, null, PrekidRadaState.ZAHTEVA_SE,file_path_server.toString());
+        Bolovanje b = new Bolovanje(z, datum_od, datum_do, PrekidRadaState.ZAHTEVA_SE,file_path_server.toString());
         
         pr_DAO.createBolovanjeRequest(b);
          
@@ -101,8 +104,10 @@ public class PrekidRadaService {
      * @param od 
      * @param do
      * @throws InvalidGORequestException 
+     * @throws SQLException 
+     * @throws ClassNotFoundException 
      */
-    public void addGodisnjiRequest(Zaposleni z, LocalDate datum_od, LocalDate datum_do) throws InvalidGORequestException {
+    public void addGodisnjiRequest(Zaposleni z, LocalDate datum_od, LocalDate datum_do) throws InvalidGORequestException, ClassNotFoundException, SQLException {
         validateGodRequest(z, datum_od, datum_do);
         pr_DAO.createOdmorRequest(z, datum_od, datum_do);
     }
@@ -125,10 +130,11 @@ public class PrekidRadaService {
 
     /**
      * @return
+     * @throws SQLException 
+     * @throws ClassNotFoundException 
      */
-    public ArrayList<Prekid_Rada> getPrekidiRadaZahtevi() {
-        // TODO implement here
-        return null;
+    public ArrayList<Prekid_Rada> getPrekidiRadaZahtevi() throws ClassNotFoundException, SQLException {
+        return pr_DAO.readPrekidRada(PrekidRadaState.ZAHTEVA_SE);
     }
 
     /**
@@ -143,16 +149,24 @@ public class PrekidRadaService {
 
     /**
      * @param accept
+     * @throws SQLException 
+     * @throws ClassNotFoundException 
      */
-    public void confirmPrekidRada(boolean accept) {
-        // TODO implement here
+    public void confirmPrekidRada(boolean accept, Prekid_Rada pr) throws ClassNotFoundException, SQLException {
+    	if(accept)
+    		pr_DAO.updatePrekidRada(PrekidRadaState.PRIHVACEN, pr);
+    	else
+    		pr_DAO.updatePrekidRada(PrekidRadaState.ODBIJEN, pr);
     }
 
     /**
      * @param p
+     * @throws SQLException 
+     * @throws ClassNotFoundException 
      */
-    public void addPrekidRada(Prekid_Rada p) {
-        // TODO implement here
+    public void addPrekidRada(Prekid_Rada p) throws ClassNotFoundException, SQLException {
+        pr_DAO.createPrekidRada(p);
     }
+    
 
 }

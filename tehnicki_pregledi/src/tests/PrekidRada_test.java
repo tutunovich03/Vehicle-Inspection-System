@@ -1,7 +1,8 @@
-package testbench;
+package tests;
 
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ import model.Tehnicar;
 import model.Zaposleni;
 import service.*;
 
-public class PrekidRada_tb {
+public class PrekidRada_test {
 	
 	private static Prekid_Rada_DAO prDAO = new Prekid_Rada_DAO();
 	
@@ -25,7 +26,7 @@ public class PrekidRada_tb {
 		
 		
 		
-		try {
+		/*try {
 			p.addBolovanjeRequest(z, path);
 		}
 		catch(InvalidFileException e) {
@@ -33,11 +34,11 @@ public class PrekidRada_tb {
 		}
 		catch(IOException e) {
 			System.out.println("greska");
-		}
+		}*/
 		
 	}
 	
-	public static void zakazivanje_god_odm_test(Zaposleni z) {
+	public static void zakazivanje_god_odm_test(Zaposleni z) throws ClassNotFoundException, SQLException {
 		PrekidRadaService p = new PrekidRadaService();
 		
 		

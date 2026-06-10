@@ -9,6 +9,10 @@ import java.util.*;
  */
 public class Bolovanje extends Prekid_Rada {
     private String filePath;
+    
+    public Bolovanje() {
+    	super();
+    }
 
 	public Bolovanje(Zaposleni z, LocalDate datum_od, LocalDate datum_do, PrekidRadaState stanje,
 			String filePath) {

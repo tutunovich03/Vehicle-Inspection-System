@@ -22,6 +22,16 @@ public abstract class Vozilo {
     protected LocalDate datum_isteka_registracije;
     protected Vlasnik vlasnik;
     protected String model;
+    protected int cena;
+
+	public int getCena() {
+		return cena;
+	}
+
+
+	public void setCena(int cena) {
+		this.cena = cena;
+	}
 
 	protected Set<VoziloTip> allowed;
     protected abstract void setAllowed();
@@ -38,10 +48,37 @@ public abstract class Vozilo {
 		this.datum_isteka_registracije = datum_isteka_registracije;
 		this.vlasnik = vlasnik;
 	}
+    
+    
+    protected double getVlasnikFaktor() {
+
+        switch(this.vlasnik.getTip()) {
+
+            case fizicko_lice:
+                return 1.0;
+
+            case pravno_lice:
+                return 1.2;
+
+            case auto_skola:
+                return 0.9;
+
+            case taksi:
+                return 1.15;
+
+            case rent_a_car:
+                return 1.3;
+
+            default:
+                return 1.0;
+        }
+    }
+    
+    
 
 	public abstract int trajanje_tehnickog_min() throws VoziloTipException;
     
-    public abstract int cena_registracije();
+    public abstract double cena_registracije() throws VoziloTipException;
     
     public static Vozilo createVozilo(VoziloTip vozilo_tip) {
     	Vozilo v;

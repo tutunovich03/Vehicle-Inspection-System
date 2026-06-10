@@ -47,8 +47,54 @@ public class Motorno_Vozilo extends Vozilo {
 	}
 	
 	
-	public int cena_registracije() {
-		return 0;
+	public double cena_registracije() throws VoziloTipException {
+		
+		double cena = 5000;
+		
+	    cena += this.getZapremina_motora() * 2;
+
+	    cena += this.getSnagaKW() * 15;
+
+	    switch(this.getTip()) {
+
+	        case MOPED:
+	            cena += 1000;
+	            break;
+
+	        case MOTOCIKL:
+	            cena += 2000;
+	            break;
+
+	        case TRICIKL:
+	            cena += 2500;
+	            break;
+
+	        case CETVOROCIKL:
+	            cena += 3000;
+	            break;
+
+	        case MOTOKULTIVATOR:
+	            cena += 1500;
+	            break;
+
+	        case TRAKTOR:
+	            cena += 3500;
+	            break;
+
+	        case AUTOMOBIL:
+	            cena += 5000;
+	            break;
+	            
+	        default: 
+	        	throw new VoziloTipException(); 
+	  
+	    }
+
+	    cena *= getVlasnikFaktor();
+
+	    return cena;
+		
+
 	}
 	
 	

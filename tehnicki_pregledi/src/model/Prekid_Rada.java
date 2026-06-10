@@ -11,7 +11,7 @@ public class Prekid_Rada {
 
     @Override
 	public String toString() {
-		return "Prekid_Rada [zaposleni_id=" + zaposleni_id + ", datum_od=" + datum_od + ", datum_do=" + datum_do
+		return "Prekid_Rada [id= "+ id +"zaposleni_id=" + zaposleni_id + ", datum_od=" + datum_od + ", datum_do=" + datum_do
 				+ ", stanje=" + stanje + ", zaposleni=" + zaposleni + "]";
 	}
 
@@ -32,11 +32,40 @@ public class Prekid_Rada {
     protected LocalDate datum_do;
     protected PrekidRadaState stanje;
     protected Zaposleni zaposleni;
+    protected int id;
 
     
     
     
-    public Prekid_Rada(Zaposleni z, LocalDate datum_od, LocalDate datum_do, PrekidRadaState stanje) {
+    public int getId() {
+		return id;
+	}
+
+
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+
+
+	public Zaposleni getZaposleni() {
+		return zaposleni;
+	}
+
+
+
+
+	public void setZaposleni(Zaposleni zaposleni) {
+		this.zaposleni = zaposleni;
+	}
+
+
+
+
+	public Prekid_Rada(Zaposleni z, LocalDate datum_od, LocalDate datum_do, PrekidRadaState stanje) {
 		super();
 		this.datum_od = datum_od;
 		this.datum_do = datum_do;

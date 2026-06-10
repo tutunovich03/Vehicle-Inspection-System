@@ -5,6 +5,8 @@ import java.io.*;
 import java.sql.SQLException;
 import java.util.*;
 
+import model.Zaposleni;
+
 /**
  * 
  */
@@ -78,5 +80,17 @@ public class SmenaDAO extends DAO {
     	close();
     	return brSmena;
     }
+    
+    public void updateZaposleniGrupa(Zaposleni z, int grupa) throws ClassNotFoundException, SQLException {
+    	connect();
+    	preparedStatement = con.prepareStatement("UPDATE `zaposleni` SET `grupa_id`=? WHERE `korisnik_id`=?");
+    	preparedStatement.setInt(1, grupa);
+    	preparedStatement.setInt(2, z.getId());
+    	preparedStatement.executeUpdate();
+    	close();
+    	
+    }
+    
+    
 
 }

@@ -1,4 +1,4 @@
-package testbench;
+package tests;
 
 import java.lang.reflect.Array;
 import java.sql.SQLException;
@@ -17,7 +17,9 @@ import exceptions.RegDateException;
 import exceptions.TerminZauzetException;
 import exceptions.UserCreateException;
 import exceptions.VoziloTipException;
+import exceptions.invalidAppointmentExcepiton;
 import model.Motorno_Vozilo;
+import model.Prekid_Rada;
 import model.RadnoMestoZaposlenog;
 import model.Radno_Vreme;
 import model.Tehnicar;
@@ -27,12 +29,13 @@ import model.Vlasnik;
 import model.Vozilo;
 import model.VoziloTip;
 import model.Zaposleni;
+import service.PrekidRadaService;
 import service.RadnoVremeService;
 import service.SmenaService;
 import service.TerminService;
 import service.ZaposleniService;
 
-public class Termin_tb {
+public class Termin_test {
 	
 	private static TerminDAO tDAO = new TerminDAO();
 	private static Radno_Vreme_DAO rvDAO= new Radno_Vreme_DAO();
@@ -42,6 +45,7 @@ public class Termin_tb {
 	private static ZaposleniService zService = new ZaposleniService();
 	private static RadnoVremeService rvService = new RadnoVremeService();
 	private static SmenaService smService = new SmenaService();
+	private static PrekidRadaService prService = new PrekidRadaService();
 	
 	
 	public static void setState() throws ClassNotFoundException, SQLException {
@@ -71,7 +75,7 @@ public class Termin_tb {
 		
 	}
 	
-	public static void getSlobTerm(LocalDate date, Vozilo v) throws ClassNotFoundException, VoziloTipException, SQLException, UserCreateException {
+	public static void getSlobTerm(LocalDate date, Vozilo v) throws ClassNotFoundException, VoziloTipException, SQLException, UserCreateException, RegDateException, invalidAppointmentExcepiton {
 		
 		ArrayList<LocalTime> list = ts.getSlobodniTermini(date, v);
 		
@@ -90,24 +94,22 @@ public class Termin_tb {
 	
 	public static void main(String[] args) {	
 		
-		Vozilo v = new Motorno_Vozilo();
-		v.setId(4);
-		LocalDate datum = LocalDate.of(2026, 4, 20);
-		Vlasnik vl = new Vlasnik();
-		vl.setId(15);
-		Tehnicar teh = new Tehnicar();
-		teh.setId(5);
-		Termin term = new Termin();
-		term.setStanje(TerminState.REZERVISAN);
-		term.setDatum_Termina(LocalDate.now());
-		term.setVozilo(v);
 		
 		
+		
+		
+		Vlasnik v = new Vlasnik();
+		v.setIme("Lazar");
+		v.setPrezime("Lazic");
+		v.setBroj_telefona("381 66 556677");
 		
 		
 		try {
-			smService.setBrojSmena(2);
-			System.out.println("end");
+			ArrayList<Termin> lista = tDAO.readTerminiByVlanik(v);
+			for (Termin zaposleni : lista) {
+				System.out.println(zaposleni);
+			}
+			
 		}
 		catch(Exception e){
 			e.printStackTrace();

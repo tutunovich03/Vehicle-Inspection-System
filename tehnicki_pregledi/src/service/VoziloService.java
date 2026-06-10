@@ -44,5 +44,9 @@ public class VoziloService {
     public void addVozilo(Vozilo v, Vlasnik vl) throws ClassNotFoundException, SQLException {
         vDAO.createNewCar(v,vl);
     }
+    
+    public void insertVoziloData(Vozilo v) throws ClassNotFoundException, SQLException {
+    	vDAO.insertVoziloData(v);
+    }
 
 }

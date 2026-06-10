@@ -7,6 +7,7 @@ import java.util.*;
 
 import dao.DAO;
 import dao.SmenaDAO;
+import model.Zaposleni;
 
 /**
  * 
@@ -58,6 +59,10 @@ public class SmenaService {
     public void brojSmenaValidation(int brSmena) throws Exception {
         if(brSmena > 3 || brSmena<1)
         	throw new Exception();
+    }
+    
+    public void setZaposleniGrupa(Zaposleni zap, int grupa) throws ClassNotFoundException, SQLException { 
+    	sDAO.updateZaposleniGrupa(zap, grupa);
     }
 
 }

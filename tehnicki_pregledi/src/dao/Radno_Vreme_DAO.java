@@ -8,6 +8,7 @@ import java.time.LocalTime;
 import java.util.*;
 
 import model.Radno_Vreme;
+import model.Zaposleni;
 
 /**
  * 
@@ -141,6 +142,24 @@ public class Radno_Vreme_DAO extends DAO{
     	
     	close();
     	return rv;
+    }
+    
+    public void updateRedPauzeZaposleni(Zaposleni z, int red) throws ClassNotFoundException, SQLException {
+    	connect();
+    	preparedStatement = con.prepareStatement("UPDATE `zaposleni` SET `pauza`=? WHERE `korisnik_id`=?");
+    	preparedStatement.setInt(1, red);
+    	preparedStatement.setInt(2, z.getId());
+    	preparedStatement.executeUpdate();
+    	close();
+    }
+    
+    public void updateTrajanjePauze(int mins) throws SQLException, ClassNotFoundException {
+    	String mins_str = String.valueOf(mins);
+    	connect();
+    	preparedStatement = con.prepareStatement("UPDATE `system_settings` SET `value`=? WHERE `setting_key`='trajanje_pauze'");
+    	preparedStatement.setString(1, mins_str);
+    	preparedStatement.executeUpdate();
+    	close();
     }
 
 }

@@ -16,14 +16,21 @@ public class Vlasnik extends Korisnik {
     public Vlasnik() {
     }
 
+    private VlasnikTip tip;
 
-
-
-    /**
+	/**
      * 
      */
 
-    /**
+    public VlasnikTip getTip() {
+		return tip;
+	}
+
+	public void setTip(VlasnikTip tip) {
+		this.tip = tip;
+	}
+
+	/**
      * @param vozilo 
      * @param date 
      * @param vreme

@@ -16,6 +16,10 @@ public class Sekretarica extends Zaposleni {
      * @throws UserCreateException 
      */
 
+	public Sekretarica() {
+		super();
+	}
+	
     public Sekretarica(int id, String ime, String prezime, String brTel, int plata, int broj_dana_godisnjeg,
 			int preostali_dani_godisnjeg, int grupa, int vreme_za_pauzu) throws UserCreateException {
 		super(id, ime, prezime, brTel, plata, broj_dana_godisnjeg, preostali_dani_godisnjeg, grupa, vreme_za_pauzu);
