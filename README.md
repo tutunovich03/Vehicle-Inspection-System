@@ -1,6 +1,6 @@
 Vehicle Inspection System
 
-A backend-focused application for managing vehicle inspection workflows, designed to support multiple user roles and complex scheduling logic.
+Application for managing vehicle inspection workflows, designed to support multiple user roles and complex scheduling logic.
 
 Overview
 
